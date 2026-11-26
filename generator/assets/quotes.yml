@@ -1,0 +1,36 @@
+# One is picked per night (day-of-year based). Keep each under ~170 characters.
+- { text: "Simplicity is prerequisite for reliability.", by: "Edsger W. Dijkstra" }
+- { text: "Programs must be written for people to read, and only incidentally for machines to execute.", by: "Harold Abelson" }
+- { text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.", by: "Martin Fowler" }
+- { text: "Make it work, make it right, make it fast.", by: "Kent Beck" }
+- { text: "Talk is cheap. Show me the code.", by: "Linus Torvalds" }
+- { text: "Premature optimization is the root of all evil.", by: "Donald Knuth" }
+- { text: "Debugging is twice as hard as writing the code in the first place.", by: "Brian Kernighan" }
+- { text: "There are only two hard things in Computer Science: cache invalidation and naming things.", by: "Phil Karlton" }
+- { text: "Walking on water and developing software from a specification are easy if both are frozen.", by: "Edward V. Berard" }
+- { text: "Simple things should be simple, complex things should be possible.", by: "Alan Kay" }
+- { text: "The function of good software is to make the complex appear to be simple.", by: "Grady Booch" }
+- { text: "Testing shows the presence, not the absence of bugs.", by: "Edsger W. Dijkstra" }
+- { text: "Controlling complexity is the essence of computer programming.", by: "Brian Kernighan" }
+- { text: "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.", by: "Antoine de Saint-Exupéry" }
+- { text: "Good code is its own best documentation.", by: "Steve McConnell" }
+- { text: "Before software can be reusable it first has to be usable.", by: "Ralph Johnson" }
+- { text: "Optimism is an occupational hazard of programming: feedback is the treatment.", by: "Kent Beck" }
+- { text: "One of my most productive days was throwing away 1,000 lines of code.", by: "Ken Thompson" }
+- { text: "In theory, there is no difference between theory and practice. In practice, there is.", by: "Jan L. A. van de Snepscheut" }
+- { text: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight.", by: "Bill Gates" }
+- { text: "Clean code always looks like it was written by someone who cares.", by: "Michael Feathers" }
+- { text: "Truth can only be found in one place: the code.", by: "Robert C. Martin" }
+- { text: "A language that doesn't affect the way you think about programming is not worth knowing.", by: "Alan J. Perlis" }
+- { text: "Adding manpower to a late software project makes it later.", by: "Fred Brooks" }
+- { text: "The best way to predict the future is to invent it.", by: "Alan Kay" }
+- { text: "Code never lies, comments sometimes do.", by: "Ron Jeffries" }
+- { text: "If you think good architecture is expensive, try bad architecture.", by: "Brian Foote & Joseph Yoder" }
+- { text: "It's not a bug — it's an undocumented feature.", by: "Anonymous" }
+- { text: "Weeks of coding can save you hours of planning.", by: "Anonymous" }
+- { text: "Deleted code is debugged code.", by: "Jeff Sickel" }
+- { text: "First do it, then do it right, then do it better.", by: "Addy Osmani" }
+- { text: "Every great developer you know got there by solving problems they were unqualified to solve until they actually did it.", by: "Patrick McKenzie" }
+- { text: "The most important property of a program is whether it accomplishes the intention of its user.", by: "C. A. R. Hoare" }
+- { text: "Fix the cause, not the symptom.", by: "Steve Maguire" }
+- { text: "Berlin never sleeps, and neither does CI.", by: "the nightly build bot" }
