@@ -127,7 +127,7 @@ def _row(items: list[StackItem], y: float, theme: dict, tile_fill: str, rid: str
 
 def render(cfg: Config, data: Data, theme: dict) -> str:
     dark = theme["name"] == "dark"
-    tile_fill = "#141a44" if dark else "#ffffff"
+    tile_fill = theme["tile"]
     items = cfg.stack
     top_row = items[0::2]
     bottom_row = items[1::2]

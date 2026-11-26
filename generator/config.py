@@ -7,6 +7,8 @@ from pathlib import Path
 
 import yaml
 
+from . import palettes
+
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = Path(__file__).resolve().parent / "assets"
 
@@ -36,6 +38,7 @@ class Config:
     stack: list[StackItem]
     featured: list[str]
     location: dict = field(default_factory=dict)
+    palette: str = palettes.DEFAULT
 
     @property
     def coding_since(self) -> date:
@@ -54,6 +57,9 @@ def load(path: Path | None = None) -> Config:
     for item in stack:
         if item.icon and not (ASSETS / "icons" / f"{item.icon}.svg").exists():
             raise ValueError(f"profile.yml: icon '{item.icon}' not found in generator/assets/icons")
+    palette = raw.get("palette") or palettes.DEFAULT
+    if palette not in palettes.PALETTES:
+        raise ValueError(f"profile.yml: unknown palette '{palette}', choose one of: {', '.join(palettes.PALETTES)}")
     return Config(
         login=raw["login"],
         name=raw["name"],
@@ -65,4 +71,5 @@ def load(path: Path | None = None) -> Config:
         stack=stack,
         featured=list(raw.get("featured") or [])[:3],
         location=raw.get("location") or {},
+        palette=palette,
     )

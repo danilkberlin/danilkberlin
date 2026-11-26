@@ -10,7 +10,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 from . import collect, config
-from .svg.core import THEMES
+from .palettes import themes
 from .svg.registry import CARDS
 
 log = logging.getLogger("generator")
@@ -39,7 +39,8 @@ def main(argv: list[str] | None = None) -> int:
     started = time.monotonic()
     cfg = config.load()
     data = collect.build(cfg, "demo" if args.demo else "empty" if args.empty else "live")
-    log.info("data source: %s · %d contributions in the last year", data.source, data.totals.contributions_year)
+    log.info("data source: %s · %d contributions in the last year · palette %s", data.source,
+             data.totals.contributions_year, cfg.palette)
     args.out.mkdir(parents=True, exist_ok=True)
 
     only = {name.strip() for name in args.only.split(",") if name.strip()}
@@ -49,7 +50,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         if card.kind == "gif" and args.no_gif:
             continue
-        for theme in THEMES.values():
+        for theme in themes(cfg.palette).values():
             for filename, content in card.render(cfg, data, theme, started=started):
                 path = args.out / filename
                 if isinstance(content, bytes):

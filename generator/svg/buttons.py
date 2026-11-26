@@ -28,7 +28,7 @@ def _icon(link_id: str, x: float, y: float, color: str) -> str:
 def _button(label_text: str, link_id: str, index: int, theme: dict) -> str:
     dark = theme["name"] == "dark"
     accent = [theme["cyan"], theme["violet"], theme["pink"], theme["amber"]][index % 4]
-    top, bottom = (theme["panel2"], theme["panel"]) if dark else ("#ffffff", "#f3f4fd")
+    top, bottom = theme["button"]
     text = label_text.upper()
     size = fit_size(text, "o7", BW - 54 - 36, 13, spacing=2.2, minimum=9)
     delay = index * 1.35

@@ -1,4 +1,6 @@
-"""Shared SVG toolkit: theme tokens, embedded fonts, frames and animation helpers.
+"""Shared SVG toolkit: embedded fonts, frames and animation helpers.
+
+Colours come from the theme dict each card receives (see generator/palettes.py).
 
 GitHub shows README images through its camo proxy inside <img>, so every SVG
 must be fully self-contained: no scripts, no external fonts/images, no hover.
@@ -28,27 +30,6 @@ from ..config import ASSETS
 
 W = 840  # full-width card
 HALF = 412  # two per row with a gap
-
-THEMES = {
-    "dark": {
-        "name": "dark",
-        "bg": "#0b0f2a", "bg2": "#141a46", "panel": "#0e1334", "panel2": "#161d4d",
-        "line": "#262e68", "text": "#e6e9ff", "muted": "#8d94c9", "faint": "#454c86",
-        "cyan": "#22d3ee", "pink": "#f472b6", "amber": "#fbbf24", "violet": "#a78bfa",
-        "green": "#34d399", "red": "#fb7185",
-        "heat": ["#1a2050", "#2b3a8f", "#1590b8", "#22d3ee", "#f472b6"],
-        "glow": 1.0,
-    },
-    "light": {
-        "name": "light",
-        "bg": "#f6f7fe", "bg2": "#e9ecfc", "panel": "#ffffff", "panel2": "#f1f3fd",
-        "line": "#d9dcf2", "text": "#1b1e45", "muted": "#5d6394", "faint": "#b3b8da",
-        "cyan": "#0891b2", "pink": "#db2777", "amber": "#d97706", "violet": "#7c3aed",
-        "green": "#059669", "red": "#e11d48",
-        "heat": ["#e6e9f7", "#b4ecf7", "#4fc3dc", "#0e8fb0", "#db2777"],
-        "glow": 0.35,
-    },
-}
 
 
 # ─────────────────────────────────────────────────────────────── fonts ───

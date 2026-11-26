@@ -150,7 +150,7 @@ def render(cfg: Config, data: Data, theme: dict) -> str:
         f'<rect x="28" y="{fy - 8.5}" width="9" height="9" rx="2" fill="none" stroke="{theme["pink"]}" stroke-width="1.5"/>'
         f'<text x="44" y="{fy}" class="mb" font-size="9.5" letter-spacing="1.2" fill="{theme["text"]}">{esc(best_text)}</text>'
         f'<text x="44" y="{fy + 14}" class="m" font-size="9" letter-spacing=".8" fill="{theme["muted"]}">'
-        f"{active} ACTIVE DAYS · CURRENT STREAK {streak} · TODAY IN CYAN</text></g>"
+        f"{active} ACTIVE DAYS · CURRENT STREAK {streak} · TODAY OUTLINED</text></g>"
     )
     legend_cells = "".join(
         f'<rect x="{W - 28 - 34 - (5 - i) * 14:.1f}" y="{fy - 9}" width="{CELL}" height="{CELL}" rx="2.6" fill="{heat[i]}" '

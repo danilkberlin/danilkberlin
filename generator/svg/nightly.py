@@ -130,7 +130,7 @@ def render(cfg: Config, data: Data, theme: dict, started: float | None = None) -
     out.append(
         f'<g class="up" style="animation-delay:{delay + .12:.2f}s">'
         f'<circle cx="{mx}" cy="{my}" r="{mr}" fill="{theme["line"]}"/>'
-        f'<path d="{moon_path(mx, my, mr, data.moon.phase)}" fill="{"#fff6d6" if theme["name"] == "dark" else theme["amber"]}"/>'
+        f'<path d="{moon_path(mx, my, mr, data.moon.phase)}" fill="{theme["moon"]}"/>'
         f'<text x="{mx + 20}" y="{wy}" class="o7" font-size="20" fill="{theme["text"]}">{data.moon.illumination * 100:.0f}%</text>'
         f'<text x="{mx + 20}" y="{wy + 16}" class="mb" font-size="9.5" letter-spacing="1.2" fill="{theme["muted"]}">'
         f'{esc(_shorten(name, 118))}</text></g>'

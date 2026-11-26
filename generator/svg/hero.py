@@ -17,14 +17,8 @@ HORIZON = 300
 
 
 def _sky(theme: dict) -> str:
-    if theme["name"] == "dark":
-        stops = [(0, "#03051a"), (.5, "#0f0b38"), (.8, "#2c0d4d"), (1, "#5a1561")]
-        ground = [(0, "#1a0833"), (1, "#05030f")]
-    else:
-        stops = [(0, "#7cc4ff"), (.45, "#bfe2ff"), (.8, "#ffd3ea"), (1, "#ffbfa6")]
-        ground = [(0, "#f6d9f0"), (1, "#efe9ff")]
-    sky = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in stops)
-    gnd = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in ground)
+    sky = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in theme["sky"])
+    gnd = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in zip((0, 1), theme["ground"]))
     return (
         f'<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">{sky}</linearGradient>'
         f'<linearGradient id="gnd" x1="0" y1="0" x2="0" y2="1">{gnd}</linearGradient>'
@@ -63,25 +57,26 @@ def _moon(data: Data, theme: dict) -> str:
         lit = moon_path(cx, cy, r, data.moon.phase)
         glow = .25 + .55 * data.moon.illumination
         return (
-            f'<defs><radialGradient id="mglow"><stop offset="0" stop-color="#fff3c4" stop-opacity="{glow:.2f}"/>'
-            f'<stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></radialGradient></defs>'
+            f'<defs><radialGradient id="mglow"><stop offset="0" stop-color="{theme["moon_glow"]}" stop-opacity="{glow:.2f}"/>'
+            f'<stop offset="1" stop-color="{theme["moon_glow"]}" stop-opacity="0"/></radialGradient></defs>'
             f'<circle cx="{cx}" cy="{cy}" r="{r * 3.4}" fill="url(#mglow)" class="breathe"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#1c2152"/>'
-            f'<path d="{lit}" fill="#fff6d6"/>'
-            f'<g fill="#e8dcb0" opacity=".55"><circle cx="{cx - 8}" cy="{cy - 6}" r="4"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{theme["moon_shadow"]}"/>'
+            f'<path d="{lit}" fill="{theme["moon"]}"/>'
+            f'<g fill="{theme["moon_crater"]}" opacity=".55"><circle cx="{cx - 8}" cy="{cy - 6}" r="4"/>'
             f'<circle cx="{cx + 9}" cy="{cy + 8}" r="3"/><circle cx="{cx + 4}" cy="{cy - 12}" r="2"/></g>'
-            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#fff6d6" stroke-opacity=".15"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{theme["moon"]}" stroke-opacity=".15"/>'
         )
     # Day: a striped synthwave sun.
     stripes = "".join(
-        f'<rect x="{cx - r - 2}" y="{cy + 2 + i * 7}" width="{2 * r + 4}" height="{1.6 + i * .9:.1f}" fill="#bfe2ff"/>'
+        f'<rect x="{cx - r - 2}" y="{cy + 2 + i * 7}" width="{2 * r + 4}" height="{1.6 + i * .9:.1f}" fill="{theme["sun_stripe"]}"/>'
         for i in range(4)
     )
+    sun_top, sun_bottom = theme["sun"]
     return (
-        f'<defs><linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd166"/>'
-        f'<stop offset="1" stop-color="#ff5fa2"/></linearGradient>'
-        f'<radialGradient id="sglow"><stop offset="0" stop-color="#ffd166" stop-opacity=".55"/>'
-        f'<stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient></defs>'
+        f'<defs><linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{sun_top}"/>'
+        f'<stop offset="1" stop-color="{sun_bottom}"/></linearGradient>'
+        f'<radialGradient id="sglow"><stop offset="0" stop-color="{sun_top}" stop-opacity=".55"/>'
+        f'<stop offset="1" stop-color="{sun_top}" stop-opacity="0"/></radialGradient></defs>'
         f'<circle cx="{cx}" cy="{cy}" r="{r * 3}" fill="url(#sglow)" class="breathe"/>'
         f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="url(#sun)"/>{stripes}'
     )
@@ -97,7 +92,7 @@ def _plane() -> str:
 
 
 def _clouds(rng: random.Random, theme: dict, count: int, opacity: float) -> str:
-    color = "#2a2c62" if theme["name"] == "dark" else "#ffffff"
+    color = theme["cloud"]
     rim = theme["pink"] if theme["name"] == "dark" else "#ffffff"
     out = []
     for i in range(count):
@@ -124,7 +119,7 @@ def _weather(data: Data, rng: random.Random, theme: dict) -> tuple[str, str]:
         behind += _clouds(rng, theme, 5 if kind in ("cloudy", "storm") else 3, .55 if dark else .8)
     if kind in ("rain", "drizzle", "storm"):
         drops = {"drizzle": 45, "rain": 90, "storm": 130}[kind]
-        color = "#9fb4ff" if dark else "#5b6fd6"
+        color = theme["rain"]
         for _ in range(drops):
             x = rng.uniform(0, W + 80)
             length = rng.uniform(8, 16)
@@ -144,7 +139,7 @@ def _weather(data: Data, rng: random.Random, theme: dict) -> tuple[str, str]:
                 f'style="animation:snow {rng.uniform(7, 14):.1f}s linear -{rng.uniform(0, 14):.1f}s infinite"/></g>'
             )
     if kind == "fog":
-        color = "#8a8fc4" if dark else "#ffffff"
+        color = theme["fog"]
         for i in range(4):
             front += (
                 f'<ellipse cx="{rng.uniform(100, 740):.0f}" cy="{HORIZON - 20 + i * 14}" rx="320" ry="16" fill="{color}" '
@@ -191,9 +186,9 @@ def _brandenburg(x: float, fill: str) -> str:
 
 def _skyline(rng: random.Random, theme: dict) -> str:
     dark = theme["name"] == "dark"
-    far_fill = "#1b1446" if dark else "#b6a9e6"
-    near_top, near_bottom = ("#191541", "#07061a") if dark else ("#8c7fd0", "#6c61b5")
-    window_colors = [theme["amber"], "#ffe8a3", theme["cyan"], theme["pink"]] if dark else ["#e9f6ff", "#ffffff", "#ffe1f0"]
+    far_fill = theme["far"]
+    near_top, near_bottom = theme["bld"]
+    window_colors = theme["windows"]
     out = [
         f'<defs><linearGradient id="bld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{near_top}"/>'
         f'<stop offset="1" stop-color="{near_bottom}"/></linearGradient></defs>'
@@ -208,8 +203,8 @@ def _skyline(rng: random.Random, theme: dict) -> str:
         x += w - 2
     out.append(f'<g fill="{far_fill}" opacity=".85">{"".join(far)}</g>')
 
-    out.append(_brandenburg(108, near_bottom if dark else near_bottom))
-    out.append(_tv_tower(752, theme, near_top if dark else "#6c61b5"))
+    out.append(_brandenburg(108, near_bottom))
+    out.append(_tv_tower(752, theme, theme["tower"]))
 
     # Near layer with windows (gaps left for the landmarks)
     x = -6
@@ -272,14 +267,13 @@ def _grid(theme: dict) -> str:
 
 
 def _roles(cfg: Config, theme: dict, cy: float) -> tuple[str, str]:
-    dark = theme["name"] == "dark"
     size = 17
     roles = cfg.roles
     widest = max(text_width(r, "m", size) for r in roles)
     pill_w = widest + 74
     pill_h = 38
     px = W / 2 - pill_w / 2
-    pill_fill = "#0c1033" if dark else "#ffffff"
+    pill_fill = theme["pill"]
     tx = px + 40
     baseline = cy + 6
     timings = []

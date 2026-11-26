@@ -27,9 +27,8 @@ ART = [
 
 
 def render(cfg: Config, data: Data, theme: dict) -> str:
-    dark = theme["name"] == "dark"
-    term_bg = "#080b22" if dark else "#fcfcff"
-    bar_bg = "#11163d" if dark else "#eef0fb"
+    term_bg = theme["term"]
+    bar_bg = theme["term_bar"]
     host = "berlin"
     prompt = f"{cfg.name.split()[0].lower()}@{host}"
     about = cfg.about

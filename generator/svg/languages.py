@@ -118,7 +118,7 @@ def _sun(cfg: Config, theme: dict) -> str:
         f'<defs><radialGradient id="corona"><stop offset="0" stop-color="{theme["amber"]}" stop-opacity=".55"/>'
         f'<stop offset=".45" stop-color="{theme["pink"]}" stop-opacity=".18"/>'
         f'<stop offset="1" stop-color="{theme["pink"]}" stop-opacity="0"/></radialGradient>'
-        f'<radialGradient id="suncore" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff4c2"/>'
+        f'<radialGradient id="suncore" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="{theme["sun_core"]}"/>'
         f'<stop offset=".45" stop-color="{theme["amber"]}"/><stop offset="1" stop-color="{theme["pink"]}"/></radialGradient></defs>'
         f'<circle cx="{CX}" cy="{CY}" r="46" fill="url(#corona)" class="corona"/>'
         f'<g class="pop" style="animation-delay:.15s">'

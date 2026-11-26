@@ -15,7 +15,7 @@ from generator.data import astro, github
 from generator.gif import city
 from generator.model import Day, Event
 from generator.readme import Readme
-from generator.svg.core import THEMES
+from generator.palettes import PALETTES, themes
 from generator.svg.registry import CARDS
 
 CFG = config.load()
@@ -56,10 +56,13 @@ def fast_gif(monkeypatch):
     monkeypatch.setattr(city, "FRAMES", 4)
 
 
-@pytest.mark.parametrize("theme", sorted(THEMES))
+THEMES = themes(CFG.palette)
+
+
+@pytest.mark.parametrize("palette,theme", [(p, t) for p in sorted(PALETTES) for t in sorted(PALETTES[p])])
 @pytest.mark.parametrize("card", CARDS, ids=lambda c: c.name)
-def test_card_renders_safely(card, theme, data):
-    outputs = list(card.render(CFG, data, THEMES[theme], started=0.0))
+def test_card_renders_safely(card, palette, theme, data):
+    outputs = list(card.render(CFG, data, PALETTES[palette][theme], started=0.0))
     assert outputs, f"{card.name} produced nothing"
     for filename, content in outputs:
         assert filename.endswith(f"-{theme}.{'gif' if card.kind == 'gif' else 'svg'}")
@@ -75,6 +78,15 @@ def test_card_renders_safely(card, theme, data):
         assert not re.search(r'href="(?!#)', content), f"{filename} references an external resource"
         assert not re.search(r"url\((?!#|data:)", content), f"{filename} loads something external"
         assert not re.search(r'="[^"]*\b(nan|inf)\b', lowered), f"{filename} has NaN/inf geometry"
+
+
+@pytest.mark.parametrize("palette", sorted(PALETTES))
+def test_palette_defines_every_token(palette):
+    reference = PALETTES["nightshift"]["dark"]
+    for mode, theme in PALETTES[palette].items():
+        assert theme["name"] == mode
+        assert theme.keys() == reference.keys(), f"{palette}/{mode}: {sorted(theme.keys() ^ reference.keys())}"
+        assert len(theme["heat"]) == 5 and len(theme["city_windows"]) == 3
 
 
 def test_full_build_has_unique_filenames():

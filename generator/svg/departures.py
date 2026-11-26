@@ -35,15 +35,10 @@ STATUS_FOR = {
 
 
 def _palette(theme: dict) -> dict:
-    dark = theme["name"] == "dark"
-    if dark:
-        return {
-            "board": "#070a1f", "tile_top": "#181d45", "tile_bottom": "#11153a", "split": "#04051a",
-            "glyph": theme["amber"], "time": "#ffe3a3",
-        }
+    tile_top, tile_bottom = theme["board_tile"]
     return {
-        "board": "#e4e7f7", "tile_top": "#ffffff", "tile_bottom": "#f1f3fc", "split": "#c3c8e6",
-        "glyph": theme["text"], "time": theme["violet"],
+        "board": theme["board"], "tile_top": tile_top, "tile_bottom": tile_bottom, "split": theme["board_split"],
+        "glyph": theme["amber"] if theme["name"] == "dark" else theme["text"], "time": theme["board_time"],
     }
 
 

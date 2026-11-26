@@ -8,6 +8,11 @@ name: Danylo Kravets
 initials: DK
 timezone: Europe/Berlin
 
+# Colours of every card. One of the palettes in generator/palettes.py:
+#   graphite    graphite + apricot, matches the avatar
+#   nightshift  the original neon navy synthwave
+palette: graphite
+
 # Shown in the hero subtitle, typed one after another.
 roles:
   - Backend Developer

@@ -119,7 +119,7 @@ def _font(name: str, size: int) -> ImageFont.FreeTypeFont:
 def _background(theme: dict) -> Image.Image:
     w, h = OUT_W * SS, OUT_H * SS
     dark = theme["name"] == "dark"
-    top, mid, bottom = (("#03051a", "#120c3d", "#3a1153") if dark else ("#9fd4ff", "#d8ecff", "#ffd9ec"))
+    top, mid, bottom = theme["city_sky"]
     img = Image.new("RGB", (w, h))
     px = ImageDraw.Draw(img)
     a, b, c = _hex(top), _hex(mid), _hex(bottom)
@@ -138,7 +138,7 @@ def _background(theme: dict) -> Image.Image:
     # horizon glow
     glow = Image.new("RGB", (w, h), (0, 0, 0))
     gd = ImageDraw.Draw(glow)
-    gd.ellipse([w * .1, h * .45, w * .9, h * 1.15], fill=_hex(theme["pink"]) if dark else (255, 200, 230))
+    gd.ellipse([w * .1, h * .45, w * .9, h * 1.15], fill=_hex(theme["city_glow"]))
     glow = glow.filter(ImageFilter.GaussianBlur(80 * SS))
     return Image.blend(img, Image.composite(glow, img, glow.convert("L")), .35 if dark else .25)
 
@@ -157,7 +157,7 @@ def _frame(base: Image.Image, buildings, labels, width, depth, yaw: float, theme
     corners = [(-width / 2 - pad, -depth / 2 - pad), (width / 2 + pad, -depth / 2 - pad),
                (width / 2 + pad, depth / 2 + pad), (-width / 2 - pad, depth / 2 + pad)]
     plate = [cam.project(x, 0, z) for x, z in corners]
-    draw.polygon(plate, fill=(10, 8, 34) if dark else (238, 232, 255), outline=_hex(theme["pink"]))
+    draw.polygon(plate, fill=_hex(theme["city_plate"]), outline=_hex(theme["pink"]))
     # streets: glowing lines between districts
     street = _hex(theme["pink"]) if dark else _hex(theme["violet"])
     block_w, block_d = 6, 7
@@ -169,15 +169,15 @@ def _frame(base: Image.Image, buildings, labels, width, depth, yaw: float, theme
         draw.line([cam.project(-width / 2 - pad, 0, z), cam.project(width / 2 + pad, 0, z)], fill=street, width=SS)
 
     heat = [_hex(c) for c in theme["heat"]]
-    body = (22, 20, 58) if dark else (150, 138, 214)
-    lit = [_hex(theme["amber"]), (255, 232, 163), _hex(theme["cyan"])] if dark else [(240, 248, 255), (255, 255, 255), (220, 236, 255)]
+    body = _hex(theme["city_body"])
+    lit = [_hex(c) for c in theme["city_windows"]]
     show_x = 1 if cam.sin > 0 else -1  # which ±x face points at the viewer
     show_z = 1 if cam.cos > 0 else -1
     order = sorted(buildings, key=lambda b: cam.rotate(b.x, b.z)[1])
     half = FOOT / 2
     for b in order:
         x0, x1, z0, z1 = b.x - half, b.x + half, b.z - half, b.z + half
-        top_color = heat[b.level] if b.count else (heat[0] if dark else (214, 208, 240))
+        top_color = heat[b.level] if b.count else _hex(theme["city_empty"])
         if not b.count:
             quad = [cam.project(x0, b.h, z0), cam.project(x1, b.h, z0), cam.project(x1, b.h, z1), cam.project(x0, b.h, z1)]
             draw.polygon(quad, fill=top_color)
@@ -210,8 +210,8 @@ def _frame(base: Image.Image, buildings, labels, width, depth, yaw: float, theme
             r = 2.2 * SS
             draw.ellipse([bx - r, by - r, bx + r, by + r], fill=(255, 45, 85))
     # month labels at each district's corner nearest the viewer, drawn on top
-    label_fill = _hex(theme["text"]) if dark else (60, 52, 120)
-    chip = (12, 10, 40) if dark else (246, 243, 255)
+    label_fill = _hex(theme["city_label"])
+    chip = _hex(theme["city_chip"])
     for x0, z0, text in labels:
         corners = [(x0, z0), (x0 + block_w, z0), (x0 + block_w, z0 + block_d), (x0, z0 + block_d)]
         cx, cz = max(corners, key=lambda c: cam.rotate(*c)[1])
@@ -229,7 +229,7 @@ def _frame(base: Image.Image, buildings, labels, width, depth, yaw: float, theme
 def _overlay(img: Image.Image, data: Data, theme: dict, fonts) -> Image.Image:
     draw = ImageDraw.Draw(img)
     s = SS
-    text = _hex(theme["text"]) if theme["name"] == "dark" else (27, 30, 69)
+    text = _hex(theme["text"])
     muted = _hex(theme["muted"])
     accent = _hex(theme["cyan"])
     year = stats.last_year(data)

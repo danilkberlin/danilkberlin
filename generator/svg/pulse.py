@@ -92,7 +92,7 @@ def render(cfg: Config, data: Data, theme: dict) -> str:
     points, tops = _trace(weeks)
     d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in points)
     key_times, key_points = _motion_keys(points)
-    monitor_fill = "#060920" if dark else theme["bg2"]
+    monitor_fill = theme["monitor"]
     grid_color = theme["cyan"] if dark else theme["violet"]
 
     # Monitor grid (minor + major lines), drawn above the eraser so it never disappears.
