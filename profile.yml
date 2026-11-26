@@ -1,0 +1,70 @@
+# ──────────────────────────────────────────────────────────────────────────────
+#  Everything personal on the profile lives here. Edit, push to main, and the
+#  "profile" workflow re-renders all images within a few minutes.
+# ──────────────────────────────────────────────────────────────────────────────
+
+login: danilkberlin
+name: Danylo Kravets
+initials: DK
+timezone: Europe/Berlin
+
+# Shown in the hero subtitle, typed one after another.
+roles:
+  - Backend Developer
+  - PHP · Laravel · Spryker
+  - Building things in Berlin
+  - Rebuilt every night by CI
+
+# The "about" terminal.
+about:
+  role: Backend Developer
+  company: Turbine Kreuzberg
+  location: Berlin, DE
+  coding_since: 2024-09-01
+  focus: [PHP, Laravel, Filament, Spryker, Java, Python]
+  infra: [Docker, Kubernetes, AWS, Jenkins, RabbitMQ, New Relic]
+  speaks: [Ukrainian, Russian, German, English]
+  motto: clean code, calm deploys
+
+# Social buttons (rendered as separate images, each wrapped in a link).
+links:
+  - { id: github,    label: GitHub,    url: "https://github.com/danilkberlin" }
+  - { id: linkedin,  label: LinkedIn,  url: "https://www.linkedin.com/in/danylo-kravets-b29233380" }
+  - { id: telegram,  label: Telegram,  url: "https://t.me/danilkravets" }
+  - { id: portfolio, label: Portfolio, url: "https://danilkberlin.github.io/danylo-kravets/" }
+
+# Tech marquee. `icon` refers to generator/assets/icons/<icon>.svg; omit it to
+# render a monogram tile instead.
+stack:
+  - { name: PHP,            icon: php }
+  - { name: Laravel,        icon: laravel }
+  - { name: Filament,       icon: filament }
+  - { name: Spryker }
+  - { name: Java,           icon: openjdk }
+  - { name: Python,         icon: python }
+  - { name: JavaScript,     icon: javascript }
+  - { name: MySQL,          icon: mysql }
+  - { name: PostgreSQL,     icon: postgresql }
+  - { name: SQLite,         icon: sqlite }
+  - { name: Redis,          icon: redis }
+  - { name: Docker,         icon: docker }
+  - { name: Kubernetes,     icon: kubernetes }
+  - { name: AWS,            icon: amazonwebservices }
+  - { name: Jenkins,        icon: jenkins }
+  - { name: RabbitMQ,       icon: rabbitmq }
+  - { name: New Relic,      icon: newrelic }
+  - { name: Git,            icon: git }
+  - { name: GitHub Actions, icon: githubactions }
+  - { name: PhpStorm,       icon: phpstorm }
+
+# Project cards (public repos of `login`). Exactly three fit one row.
+featured:
+  - danylo-kravets
+  - monopoly
+  - dolphin
+
+# Used for the "Tonight in Berlin" weather + sunrise.
+location:
+  name: Berlin
+  latitude: 52.52
+  longitude: 13.405
